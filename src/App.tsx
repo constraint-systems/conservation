@@ -22,7 +22,7 @@ function App() {
   useLoadCanvas();
 
   return (
-    <div className="text-white overflow-hidden font-mono leading-4 flex uppercase justify-center items-center h-[100vh]">
+    <div className="text-white overflow-hidden font-mono leading-4 flex uppercase justify-center items-center h-[100dvh]">
       {canvas ? (
         <Container>
           <div className="flex flex-col grow">
@@ -91,7 +91,7 @@ function useLoadCanvas() {
 function Container({ children }: { children: React.ReactNode }) {
   return (
     <div
-      className="sm:border flex flex-col border-neutral-600 h-[100vh] sm:h-auto overflow-hidden"
+      className="sm:border flex flex-col border-neutral-600 h-[100dvh] sm:h-auto overflow-hidden"
       style={{
         width: "100%",
         maxWidth: width * multiplier + padding * 2 + 2,
