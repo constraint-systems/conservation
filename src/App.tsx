@@ -22,7 +22,7 @@ function App() {
   useLoadCanvas();
 
   return (
-    <div className="text-white overflow-hidden font-mono leading-4 flex uppercase justify-center items-center h-[100dvh]">
+    <div className="text-white overflow-hidden font-mono leading-4 flex uppercase justify-center items-center h-[100vh]">
       {canvas ? (
         <Container>
           <div className="flex flex-col grow">
@@ -30,7 +30,7 @@ function App() {
             {showInfo ?  <AppInfo /> : null}
             <ZoomCanvas />
           </div>
-          <div className="flex flex-col">
+          <div className="flex flex-col select-none">
             <Palette />
             <RgbSliders />
             <div className="flex w-full">
@@ -91,7 +91,7 @@ function useLoadCanvas() {
 function Container({ children }: { children: React.ReactNode }) {
   return (
     <div
-      className="sm:border flex flex-col border-neutral-600 h-[100dvh] sm:h-auto"
+      className="sm:border flex flex-col border-neutral-600 h-[100vh] sm:h-auto overflow-hidden"
       style={{
         width: "100%",
         maxWidth: width * multiplier + padding * 2 + 2,
@@ -107,7 +107,7 @@ function Title() {
   const [showInfo, setShowInfo] = useAtom(showInfoAtom);
 
   return (
-    <div className="w-full flex justify-between border-b border-neutral-600">
+    <div className="w-full flex justify-between border-b select-none border-neutral-600">
       <div className="px-3 py-2">Conservation</div>
       <div className="flex">
         <button className={`px-3 py-2 bg-neutral-900 border-l border-neutral-600 ${showInfo ? 'bg-neutral-600' : ''}`} onClick={() => {
@@ -430,7 +430,7 @@ function ZoomCanvas() {
   useEffect(() => {
     function handleResize() {
       const zc = zoomCanvasRef.current!;
-      zc.style.width = Math.min(width * multiplier, window.innerWidth) + "px";
+      zc.style.width = Math.min(width * multiplier, window.innerWidth - padding * 2) + "px";
       zc.style.height = zc.style.width;
     }
     window.addEventListener("resize", handleResize);
@@ -442,7 +442,7 @@ function ZoomCanvas() {
 
   return (
     <div
-      className="sm:px-3 py-3 grow flex items-center cursor-crosshair touch-none"
+      className="grow flex items-center justify-center sm:py-3 cursor-crosshair touch-none"
       {...bindGesture()}
     >
       <canvas
@@ -671,8 +671,8 @@ function RgbSliders() {
         ref={canvasRef}
         className="ml-1 mr-3 bg-neutral-900"
         style={{
-          width: 136,
-          height: 136,
+          width: 112,
+          height: 112,
           imageRendering: "pixelated",
         }}
       ></canvas>
