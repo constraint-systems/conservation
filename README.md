@@ -1,7 +1,7 @@
 # Conservation
 
 <img
-src='https://raw.githubusercontent.com/constraint-systems/flow/main/public/flow.gif'
+src='https://raw.githubusercontent.com/constraint-systems/conservation/main/public/conservation.gif'
 width="600"/>
 
 An experimental drawing app where all the initial RGB values (522,240 red, 522,240 green, 522,240 blue) are preserved.
