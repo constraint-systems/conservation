@@ -27,7 +27,7 @@ function App() {
         <Container>
           <div className="flex flex-col grow">
             <Title />
-            {showInfo ?  <AppInfo /> : null}
+            {showInfo ? <AppInfo /> : null}
             <ZoomCanvas />
           </div>
           <div className="flex flex-col select-none">
@@ -54,7 +54,14 @@ function AppInfo() {
   return (
     <div className="px-3 py-2 border-b border-neutral-600 bg-neutral-900">
       An experimental drawing app where all the initial RGB values (522,240 red,
-      522,240 green, 522,240 blue) are preserved. More at <a href="https://constraint.systems" className="underline" target="_blank">constraint.systems</a>
+      522,240 green, 522,240 blue) are preserved. More at{" "}
+      <a
+        href="https://constraint.systems"
+        className="underline"
+        target="_blank"
+      >
+        constraint.systems
+      </a>
     </div>
   );
 }
@@ -72,17 +79,31 @@ function useLoadCanvas() {
     canvas.height = height;
     setCanvas(canvas);
 
+    const localCheck = localStorage.getItem("canvas");
+    const localOrder = localStorage.getItem("order");
     const c = canvas;
     const ctx = c.getContext("2d", { willReadFrequently: true })!;
-    ctx.fillStyle = "black";
-    ctx.fillRect(0, 0, c.width / 2, c.height);
-    ctx.fillStyle = "white";
-    ctx.fillRect(c.width / 2, 0, c.width / 2, c.height);
-    orderRef.current = [];
-    for (let r = 0; r < height; r++) {
-      for (let c = 0; c < width; c++) {
-        const index = r * width + c;
-        orderRef.current.push(index);
+
+    if (localCheck) {
+      const img = new Image();
+      img.onload = () => {
+        ctx.drawImage(img, 0, 0);
+      };
+      img.src = localCheck;
+      if (localOrder) {
+        orderRef.current = JSON.parse(localOrder);
+      }
+    } else {
+      ctx.fillStyle = "black";
+      ctx.fillRect(0, 0, c.width / 2, c.height);
+      ctx.fillStyle = "white";
+      ctx.fillRect(c.width / 2, 0, c.width / 2, c.height);
+      orderRef.current = [];
+      for (let r = 0; r < height; r++) {
+        for (let c = 0; c < width; c++) {
+          const index = r * width + c;
+          orderRef.current.push(index);
+        }
       }
     }
   }, [runOnceRef]);
@@ -110,9 +131,14 @@ function Title() {
     <div className="w-full flex justify-between border-b select-none border-neutral-600">
       <div className="px-3 py-2">Conservation</div>
       <div className="flex">
-        <button className={`px-3 py-2 bg-neutral-900 border-l border-neutral-600 ${showInfo ? 'bg-neutral-600' : ''}`} onClick={() => {
-          setShowInfo(!showInfo)
-        }}>
+        <button
+          className={`px-3 py-2 bg-neutral-900 border-l border-neutral-600 ${
+            showInfo ? "bg-neutral-600" : ""
+          }`}
+          onClick={() => {
+            setShowInfo(!showInfo);
+          }}
+        >
           ?
         </button>
         <button
@@ -137,8 +163,8 @@ function Title() {
               link.setAttribute(
                 "download",
                 "conservation-" +
-                Math.round(new Date().getTime() / 1000) +
-                ".png",
+                  Math.round(new Date().getTime() / 1000) +
+                  ".png",
               );
               link.setAttribute("href", imageURL);
               link.dispatchEvent(
@@ -266,7 +292,7 @@ function ZoomCanvas() {
       const dist = Math.round(
         Math.sqrt(
           (x - (rawIndex % width)) ** 2 +
-          (y - Math.floor(rawIndex / width)) ** 2,
+            (y - Math.floor(rawIndex / width)) ** 2,
         ),
       );
       if (dist <= rad) continue;
@@ -430,7 +456,8 @@ function ZoomCanvas() {
   useEffect(() => {
     function handleResize() {
       const zc = zoomCanvasRef.current!;
-      zc.style.width = Math.min(width * multiplier, window.innerWidth - padding * 2) + "px";
+      zc.style.width =
+        Math.min(width * multiplier, window.innerWidth - padding * 2) + "px";
       zc.style.height = zc.style.width;
     }
     window.addEventListener("resize", handleResize);

@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 html {
+  touch-action: none;
   background: #282828;
   font-size: 16px;
 }
